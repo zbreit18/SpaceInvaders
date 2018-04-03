@@ -1,7 +1,7 @@
 # SpaceInvaders
 A Processing (java) port of Space Invaders.
 
-![GamePlay](./gameplay.gif)
+![GamePlay](https://media.giphy.com/media/47C95OK8iuB57w3zob/giphy.gif)
 
 ## Controls
 Fire <kbd>Space</kbd>

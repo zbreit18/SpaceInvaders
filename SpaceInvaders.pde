@@ -13,12 +13,14 @@ void setup() {
     ship = new MotherShip(50);
     enemies = new ArrayList<Enemy>();
     enemies.add(new Enemy(50, 50, 0, 10, color(255), 2));
+    delay(500);
+    enemies.add(new Enemy(110, 50, 0, 10, color(255), 2));
 }
 
 void draw() {
     background(bgColor);
     ship.Update();
-    ship.DetectHitBoxCollisions(enemies);
+    ship.DetectCollisionsWith(enemies);
     updateEnemies();
 }
 

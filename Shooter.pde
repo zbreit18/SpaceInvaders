@@ -47,7 +47,6 @@ public class Shooter {
         m_bullets.remove(bullet);
     }
     
-    
     void HandleCollisionWith(Shooter bulletSource, Bullet bullet) {       
         m_health -= bullet.GetDamage();
         bulletSource.RemoveBullet(bullet); //<>//
@@ -57,6 +56,21 @@ public class Shooter {
         for(Bullet bullet : bullets) {
             HandleCollisionWith(bulletSource, bullet);
         }
+    }
+    
+    void DetectCollisionsWith(Shooter otherShip) {
+        ArrayList<Bullet> collidedBullets = new ArrayList<Bullet>();
+
+        for (RectCollider hitBox : m_hitBoxes) {
+            for (Bullet bullet : otherShip.GetBulletList()) {
+                if (hitBox.CollidedWith(bullet)) {
+                    collidedBullets.add(bullet);
+                }
+            }
+        }
+        
+        // Have to do this after the fact to prevent from iterating over an empty array list
+        HandleCollisionWith(otherShip, collidedBullets);
     }
 
     void UpdateBullets() {

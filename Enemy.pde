@@ -2,12 +2,13 @@ public class Enemy extends Shooter {
     float m_fallSpeed;
     color m_bodyColor;
     int i = 0;
+    int m_shootingCooldownTicks;
 
     Enemy(int x, int y, float fallSpeed, int health, color bodyColor, int bulletDamage) {
         super(x, y, 50, 50, health, 3, color(255, 0, 0), bulletDamage);
         m_fallSpeed = fallSpeed;
         m_bodyColor = bodyColor;
-
+        m_shootingCooldownTicks = int(random(0, 120));
         m_hitBoxes.add(new RectCollider(m_x, m_y, m_width, m_height));
     }
 
@@ -27,7 +28,7 @@ public class Enemy extends Shooter {
 
     void Update() {
         i++;
-        if (i % 60 == 0) {
+        if (i % m_shootingCooldownTicks == 0) {
             CreateNewBullet(m_x + m_width / 2 - 2, m_y + m_height);
         }
         Display();

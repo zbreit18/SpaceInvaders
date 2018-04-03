@@ -87,21 +87,9 @@ public class MotherShip extends Shooter {
         }
     }
 
-    void DetectHitBoxCollisions(ArrayList<Enemy> enemyList) {
-        ArrayList<Bullet> collidedBullets = new ArrayList<Bullet>();
-
-        for (RectCollider hitBox : m_hitBoxes) {
-            for (Enemy enemy : enemyList) {
-                collidedBullets.clear();
-
-                for (Bullet bullet : enemy.GetBulletList()) {
-                    if (hitBox.CollidedWith(bullet)) {
-                        collidedBullets.add(bullet);
-                    }
-                }
-                // Have to do this after the fact to prevent from iterating over an empty array list
-                HandleCollisionWith(enemy, collidedBullets);
-            }
+    void DetectCollisionsWith(ArrayList<Enemy> enemyList) {
+        for (Enemy enemy : enemyList) {
+            DetectCollisionsWith(enemy);
         }
     }
 

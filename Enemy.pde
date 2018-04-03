@@ -3,12 +3,11 @@ public class Enemy extends Shooter {
     color m_bodyColor;
     int i = 0;
 
-
-    Enemy(int x, int y, float fallSpeed, color bodyColor) {
-        super(x, y, 50, 50, 3, color(255, 0, 0));
+    Enemy(int x, int y, float fallSpeed, int health, color bodyColor, int bulletDamage) {
+        super(x, y, 50, 50, health, 3, color(255, 0, 0), bulletDamage);
         m_fallSpeed = fallSpeed;
         m_bodyColor = bodyColor;
-        
+
         m_hitBoxes.add(new RectCollider(m_x, m_y, m_width, m_height));
     }
 
@@ -19,10 +18,10 @@ public class Enemy extends Shooter {
         rect(m_x, m_y, m_width, m_height);
         popStyle();
     }
-    
+
     void DisplayHitboxes() {
-        for(RectCollider hitBox : m_hitBoxes) {
-            hitBox.Outline();                
+        for (RectCollider hitBox : m_hitBoxes) {
+            hitBox.Outline();
         }
     }
 
@@ -32,21 +31,20 @@ public class Enemy extends Shooter {
             CreateNewBullet(m_x + m_width / 2 - 2, m_y + m_height);
         }
         Display();
-        DisplayHitboxes();
         UpdateBullets();
     }
-    
+
     void DetectHitBoxCollisions(MotherShip player) {
         ArrayList<Bullet> collidedBullets = new ArrayList<Bullet>();
-        
-        for(RectCollider hitBox : m_hitBoxes) {
-            for(Bullet bullet : player.GetBulletList()) {
-                if(hitBox.CollidedWith(bullet)) {
+
+        for (RectCollider hitBox : m_hitBoxes) {
+            for (Bullet bullet : player.GetBulletList()) {
+                if (hitBox.CollidedWith(bullet)) {
                     collidedBullets.add(bullet);
                 }
             }
         }
-        
+
         HandleCollisionWith(player, collidedBullets);
     }
 }

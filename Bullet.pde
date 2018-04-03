@@ -2,16 +2,16 @@ import processing.sound.*;
 
 public class Bullet extends RectCollider {
     float m_ySpeed;
+    int m_damage;
     color m_bulletColor;
     SoundFile laserSound;
-    
     RectCollider hitBox;
 
-    Bullet(int x, int y, float speed, color temp_color) {
+    Bullet(int x, int y, float speed, color temp_color, int damage) {
         super(x, y, 4, 8);
         m_ySpeed = speed; 
-
         m_bulletColor = temp_color;
+        m_damage = damage;
 
         laserSound = new SoundFile(SpaceInvaders.this, "laser.mp3");
         laserSound.play();
@@ -42,5 +42,9 @@ public class Bullet extends RectCollider {
 
     int GetHeight() {
         return m_height;
+    }
+    
+    int GetDamage() {
+        return m_damage;    
     }
 };

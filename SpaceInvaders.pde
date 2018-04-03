@@ -1,15 +1,18 @@
 MotherShip ship;
 ArrayList<Enemy> enemies;
 color bgColor = color(0, 0, 25);
+PFont mainFont;
 
 void setup() {
     size(1000, 500);
     frameRate(60);
-    background(bgColor);
-
+    background(bgColor); 
+    mainFont = createFont("8-BIT WONDER.TTF", 16);
+    textFont(mainFont);
+    
     ship = new MotherShip(50);
     enemies = new ArrayList<Enemy>();
-    enemies.add(new Enemy(50, 50, 0, color(255)));
+    enemies.add(new Enemy(50, 50, 0, 10, color(255), 2));
 }
 
 void draw() {

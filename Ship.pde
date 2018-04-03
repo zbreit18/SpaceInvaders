@@ -10,8 +10,7 @@ public class MotherShip extends Shooter {
     boolean m_prevFireKeyState;
 
     MotherShip(int x) {
-        // 100 = Width and 100 = height
-        super(x, height - 100, 100, 100, -6, color(0, 255, 0));
+        super(x, height - 100, 100, 100, 100, -6, color(0, 255, 0), 5);
         m_width = 100;
 
         m_x = x;
@@ -50,7 +49,7 @@ public class MotherShip extends Shooter {
     }
 
     @Override
-    boolean ShouldCreateNewBullet(boolean state) {
+        boolean ShouldCreateNewBullet(boolean state) {
         // If the space key was just pressed (not held down)
         if (key == ' ' && !m_prevFireKeyState && state) {
             if (millis() - m_prevFireTimeMS > m_bulletCooldownMS) {
@@ -90,11 +89,11 @@ public class MotherShip extends Shooter {
 
     void DetectHitBoxCollisions(ArrayList<Enemy> enemyList) {
         ArrayList<Bullet> collidedBullets = new ArrayList<Bullet>();
-        
+
         for (RectCollider hitBox : m_hitBoxes) {
             for (Enemy enemy : enemyList) {
                 collidedBullets.clear();
-                
+
                 for (Bullet bullet : enemy.GetBulletList()) {
                     if (hitBox.CollidedWith(bullet)) {
                         collidedBullets.add(bullet);
@@ -104,15 +103,50 @@ public class MotherShip extends Shooter {
                 HandleCollisionWith(enemy, collidedBullets);
             }
         }
+    }
+
+    void UpdateHealthBar() {
+        final int MAX_HEALTH_BAR_WIDTH = 200;
+        final int HEALTH_BAR_HEIGHT = 30;
+
+        // Draw outline
+        pushStyle();
+        noFill();
+        stroke(255);
+        strokeWeight(2);
+        rect(width - int(1.125 * MAX_HEALTH_BAR_WIDTH), height - int(1.5 * HEALTH_BAR_HEIGHT), MAX_HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT);
+
+        // Draw health bar %
+        noStroke();
+        fill(GetHealthBarRGB());
         
+        rect(width - int(1.125 * MAX_HEALTH_BAR_WIDTH), height - int(1.5 * HEALTH_BAR_HEIGHT), int(m_health / m_maxHealth * MAX_HEALTH_BAR_WIDTH), HEALTH_BAR_HEIGHT);
+        text("Health " + m_health, width - int(1.9 * MAX_HEALTH_BAR_WIDTH), height - int(0.8 * HEALTH_BAR_HEIGHT));
+
+        popStyle();
+    }
+    
+    color GetHealthBarRGB() {
+        int red, green;
+        if(m_health > 0.5 * m_maxHealth) {
+            // Red goes from 0 --> 255 as m_health goes from m_maxHealth --> 1/2*m_maxHealth
+            red   = int(255 * 2 * (m_maxHealth - float(m_health)) / m_maxHealth); 
+            green = 255;
+        } else {
+            red   = 255;
+            green = int(255 * 2 * m_health / m_maxHealth); ;
+        }
         
+        System.out.printf("(R, G, B): (%d, %d, %d)\n", red, green, 0);
+        
+        return color(red, green, 0);
     }
 
     void Update() {
         Relocate();
         Display();
         UpdateBullets();
-        DisplayHitBoxes();
+        UpdateHealthBar();
     }
 
     // Returns the change in pixels that occurs during the current frame

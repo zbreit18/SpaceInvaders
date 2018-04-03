@@ -3,20 +3,26 @@ public class Shooter {
     int m_y;
     int m_width;
     int m_height;
+    int m_health;
+    float m_maxHealth;
 
     float m_bulletSpeed;
     color m_bulletColor;
+    int m_bulletDamage;
     ArrayList<Bullet> m_bullets;
     
     ArrayList<RectCollider> m_hitBoxes;
 
-    Shooter(int x, int y, int _width, int _height, float speed, color bulletColor) {
+    Shooter(int x, int y, int _width, int _height, int health, float bulletSpeed, color bulletColor, int bulletDamage) {
         m_x = x;
         m_y = y;
         m_width = _width;
         m_height = _height;
-        m_bulletSpeed = speed;
+        m_maxHealth = health;
+        m_health = health;
+        m_bulletSpeed = bulletSpeed;
         m_bulletColor = bulletColor;
+        m_bulletDamage = bulletDamage;
         m_bullets = new ArrayList<Bullet>();
         
         m_hitBoxes = new ArrayList<RectCollider>();
@@ -34,7 +40,7 @@ public class Shooter {
 
     void CreateNewBullet(int xStart, int yStart) {
         // The index of the new bullet is the previous size of the bullets array list
-        m_bullets.add(new Bullet(xStart, yStart, m_bulletSpeed, m_bulletColor));
+        m_bullets.add(new Bullet(xStart, yStart, m_bulletSpeed, m_bulletColor, m_bulletDamage));
     }
     
     void RemoveBullet(Bullet bullet) {
@@ -42,9 +48,9 @@ public class Shooter {
     }
     
     
-    void HandleCollisionWith(Shooter bulletSource, Bullet bullet) {
+    void HandleCollisionWith(Shooter bulletSource, Bullet bullet) {       
+        m_health -= bullet.GetDamage();
         bulletSource.RemoveBullet(bullet); //<>//
-        // m_health -= bullet.GetDamage();
     }
     
     void HandleCollisionWith(Shooter bulletSource, ArrayList<Bullet> bullets) {

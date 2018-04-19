@@ -1,5 +1,5 @@
-# SpaceInvaders
-A Processing (java) port of Space Invaders.
+# Galaga
+A Processing (java) port of Galaga.
 
 ![GamePlay](https://media.giphy.com/media/47C95OK8iuB57w3zob/giphy.gif)
 
